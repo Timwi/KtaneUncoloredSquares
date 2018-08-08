@@ -404,8 +404,15 @@ public class UncoloredSquaresModule : MonoBehaviour
     private readonly string TwitchHelpMessage = @"Press the desired squares with “!{0} A1 A2 A3 B3”.";
 #pragma warning restore 414
 
-    KMSelectable[] ProcessTwitchCommand(string command)
+    IEnumerable<KMSelectable> ProcessTwitchCommand(string command)
     {
-        return null;
+        var buttons = new List<KMSelectable>();
+        foreach (var piece in command.ToLowerInvariant().Split(new[] { ' ', ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (piece.Length != 2 || piece[0] < 'a' || piece[0] > 'd' || piece[1] < '1' || piece[1] > '4')
+                return null;
+            buttons.Add(Buttons[(piece[0] - 'a') + 4 * (piece[1] - '1')]);
+        }
+        return buttons;
     }
 }
