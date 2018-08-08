@@ -25,7 +25,7 @@ public class UncoloredSquaresModule : MonoBehaviour
 
     private Light[] _lights;
     private SquareColor[] _colors;
-    private readonly Color[] _lightColors = new[] { Color.white, Color.red, new Color(131f / 255, 131f / 255, 1f), Color.green, Color.yellow, Color.magenta, Color.white };
+    private readonly Color[] _lightColors = new[] { Color.white, Color.red, Color.green, new Color(131f / 255, 131f / 255, 1f), Color.yellow, Color.magenta, Color.white };
 
     private SquareColor _firstStageColor1;   // for Souvenir
     private SquareColor _firstStageColor2;   // for Souvenir
