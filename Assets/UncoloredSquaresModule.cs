@@ -33,7 +33,7 @@ public class UncoloredSquaresModule : MonoBehaviour
     private static int _moduleIdCounter = 1;
     private int _moduleId;
     private Coroutine _activeCoroutine;
-    private readonly List<int> _squaresPressedThisStage = new List<int>();
+    private readonly HashSet<int> _squaresPressedThisStage = new HashSet<int>();
     private readonly List<List<int>> _permissiblePatterns = new List<List<int>>();
     private bool _isSolved;
 
