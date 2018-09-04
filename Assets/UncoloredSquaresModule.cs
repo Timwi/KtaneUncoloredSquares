@@ -17,6 +17,7 @@ public class UncoloredSquaresModule : MonoBehaviour
     public KMBombInfo Bomb;
     public KMBombModule Module;
     public KMAudio Audio;
+    public KMRuleSeedable RuleSeedable;
 
     public KMSelectable[] Buttons;
     public Material[] Materials;
@@ -36,14 +37,12 @@ public class UncoloredSquaresModule : MonoBehaviour
     private readonly HashSet<int> _squaresPressedThisStage = new HashSet<int>();
     private readonly List<List<int>> _permissiblePatterns = new List<List<int>>();
     private bool _isSolved;
+    private bool[][][,] _table;
 
-    private static readonly bool[][][,] _table = newArray(
-        new bool[][,] { null, b("##|#"), b(" #|##"), b("#|##|#"), b("##| #") },
-        new bool[][,] { b("#|#"), null, b("#|#|##"), b("##|##"), b(" ##|##") },
-        new bool[][,] { b("#|##| #"), b("#|##"), null, b("###| #"), b(" #|###") },
-        new bool[][,] { b(" #|##|#"), b("##|#|#"), b(" #| #|##"), null, b(" #|##| #") },
-        new bool[][,] { b("##| ##"), b("###|  #"), b("##"), b("###|#"), null }
-    );
+    private static readonly bool[][,] _alwaysShapes = newArray(b("##"), b("#|#"));
+    private static readonly bool[][,] _sometimesShapes = newArray(
+        b("#|##"), b("###| #"), b(" ##|##"), b(" #|##| #"), b("###"), b("#|#|#"), b(" #|##|#"), b("##|#|#"), b("  #|###"), b("#|##|#"), b(" #|##"), b(" #| #|##"),
+        b("##|##"), b("###|  #"), b("##| #"), b(" #|###"), b("##| ##"), b("#|###"), b("#|#|##"), b("##|#"), b("##| #| #"), b("###|#"), b("#|##| #"));
 
     private static bool[,] b(string v)
     {
@@ -63,6 +62,25 @@ public class UncoloredSquaresModule : MonoBehaviour
     void Start()
     {
         _moduleId = _moduleIdCounter++;
+
+        var rnd = RuleSeedable.GetRNG();
+
+        var shapes = new List<bool[,]>();
+        var extraShapes = rnd.ShuffleFisherYates(_sometimesShapes.ToArray());
+        for (var i = 0; i < 18; i++)
+            shapes.Add(extraShapes[i]);
+
+        // Sneaky! Put the two “alwaysShapes” in the right place to recreate original rules under Seed #1
+        shapes.Insert(8, _alwaysShapes[0]);
+        shapes.Insert(8, _alwaysShapes[1]);
+        rnd.ShuffleFisherYates(shapes);
+
+        _table = newArray(
+            new bool[][,] { null, shapes[0], shapes[1], shapes[2], shapes[3] },
+            new bool[][,] { shapes[4], null, shapes[5], shapes[6], shapes[7] },
+            new bool[][,] { shapes[8], shapes[9], null, shapes[10], shapes[11] },
+            new bool[][,] { shapes[12], shapes[13], shapes[14], null, shapes[15] },
+            new bool[][,] { shapes[16], shapes[17], shapes[18], shapes[19], null });
 
         float scalar = transform.lossyScale.x;
         _lights = new Light[16];
@@ -166,6 +184,7 @@ public class UncoloredSquaresModule : MonoBehaviour
         }
 
         // Fill the still-lit squares with “codes” (numbers 0–5 that we will later map to actual colors)
+        // in such a way that there’s a two-way tie for fewest number of occurrences
         int[] counts;
         int minCount;
         int[] minCountCodes;
