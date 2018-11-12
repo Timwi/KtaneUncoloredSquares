@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 11496072}
   - component: {fileID: 11489182}
   - component: {fileID: 114928485299578634}
+  - component: {fileID: 114221151522201560}
   m_Layer: 0
   m_Name: UncoloredSquaresModule
   m_TagString: Untagged
@@ -265,6 +266,7 @@ MonoBehaviour:
   Module: {fileID: 11429752}
   Audio: {fileID: 11496072}
   RuleSeedable: {fileID: 114928485299578634}
+  ColorblindMode: {fileID: 114221151522201560}
   Buttons:
   - {fileID: 114000010765397002}
   - {fileID: 114000013875810156}
@@ -290,6 +292,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4f0a7099c384c844e9ae4633cbe53ca9, type: 2}
   - {fileID: 2100000, guid: 98ede8a31f11d7347add76543eb7ee3c, type: 2}
   - {fileID: 2100000, guid: 0f03c261fb18ac84d8018f13944ada6c, type: 2}
+  MaterialsCB:
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 54f8796d1ba26bf49b617c0d956104ab, type: 2}
+  - {fileID: 2100000, guid: 282039ec5acf530428b944df24860c85, type: 2}
+  - {fileID: 2100000, guid: f0897531ad4eb2145a73e654a9d8551f, type: 2}
+  - {fileID: 2100000, guid: a6abdd3e0d999194a9a022cc83700100, type: 2}
+  - {fileID: 2100000, guid: ae13e1bd18cb3c443a4b33d5c11605ad, type: 2}
+  - {fileID: 0}
   BlackMaterial: {fileID: 2100000, guid: e1759b423eb44254fbcf31c5cf3b2957, type: 2}
   LightTemplate: {fileID: 108913474381194686}
 --- !u!114 &11489324
@@ -1548,7 +1558,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: eb1d563a941bc8a4da692167cef85e4f, type: 2}
+  - {fileID: 2100000, guid: 54f8796d1ba26bf49b617c0d956104ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1644,7 +1654,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: eb1d563a941bc8a4da692167cef85e4f, type: 2}
+  - {fileID: 2100000, guid: f0897531ad4eb2145a73e654a9d8551f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1740,7 +1750,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: eb1d563a941bc8a4da692167cef85e4f, type: 2}
+  - {fileID: 2100000, guid: ae13e1bd18cb3c443a4b33d5c11605ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1804,7 +1814,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: eb1d563a941bc8a4da692167cef85e4f, type: 2}
+  - {fileID: 2100000, guid: 282039ec5acf530428b944df24860c85, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1900,7 +1910,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: eb1d563a941bc8a4da692167cef85e4f, type: 2}
+  - {fileID: 2100000, guid: a6abdd3e0d999194a9a022cc83700100, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2974,6 +2984,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighlightScale: {x: 1, y: 1, z: 1}
   OutlineAmount: 0
+--- !u!114 &114221151522201560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cfb889a07d5fd4e9baed7960bb397f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colorblindMode: 0
 --- !u!114 &114928485299578634
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -18,15 +18,18 @@ public class UncoloredSquaresModule : MonoBehaviour
     public KMBombModule Module;
     public KMAudio Audio;
     public KMRuleSeedable RuleSeedable;
+    public KMColorblindMode ColorblindMode;
 
     public KMSelectable[] Buttons;
     public Material[] Materials;
+    public Material[] MaterialsCB;
     public Material BlackMaterial;
     public Light LightTemplate;
 
     private Light[] _lights;
     private SquareColor[] _colors;
-    private readonly Color[] _lightColors = new[] { Color.white, Color.red, Color.green, new Color(131f / 255, 131f / 255, 1f), Color.yellow, Color.magenta, Color.white };
+    private bool _colorblind;
+    private static readonly Color[] _lightColors = new[] { Color.white, Color.red, Color.green, new Color(131f / 255, 131f / 255, 1f), Color.yellow, Color.magenta, Color.white };
 
     private SquareColor _firstStageColor1;   // for Souvenir
     private SquareColor _firstStageColor2;   // for Souvenir
@@ -62,6 +65,7 @@ public class UncoloredSquaresModule : MonoBehaviour
     void Start()
     {
         _moduleId = _moduleIdCounter++;
+        _colorblind = ColorblindMode.ColorblindModeActive;
 
         var rnd = RuleSeedable.GetRNG();
 
@@ -266,7 +270,7 @@ public class UncoloredSquaresModule : MonoBehaviour
 
         if (_activeCoroutine != null)
             StopCoroutine(_activeCoroutine);
-        _activeCoroutine = StartCoroutine(SetSquareColors(squaresToRecolor));
+        _activeCoroutine = StartCoroutine(SetSquareColors(squaresToRecolor, delay: true));
 
         if (isStart)
             Debug.LogFormat("[Uncolored Squares #{0}] First stage color pair is {1}/{2}.", _moduleId, _firstStageColor1, _firstStageColor2);
@@ -329,9 +333,10 @@ public class UncoloredSquaresModule : MonoBehaviour
         }
     }
 
-    private IEnumerator SetSquareColors(List<int> indexes)
+    private IEnumerator SetSquareColors(List<int> indexes, bool delay)
     {
-        yield return new WaitForSeconds(1.75f);
+        if (delay)
+            yield return new WaitForSeconds(1.75f);
         shuffle(indexes);
         for (int i = 0; i < indexes.Count; i++)
         {
@@ -360,7 +365,7 @@ public class UncoloredSquaresModule : MonoBehaviour
 
     void SetSquareColor(int index)
     {
-        Buttons[index].GetComponent<MeshRenderer>().material = Materials[(int) _colors[index]];
+        Buttons[index].GetComponent<MeshRenderer>().material = _colorblind ? MaterialsCB[(int) _colors[index]] ?? Materials[(int) _colors[index]] : Materials[(int) _colors[index]];
         _lights[index].color = _lightColors[(int) _colors[index]];
         _lights[index].gameObject.SetActive(_colors[index] != SquareColor.Black);
     }
@@ -420,11 +425,21 @@ public class UncoloredSquaresModule : MonoBehaviour
     }
 
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"Press the desired squares with “!{0} A1 A2 A3 B3”.";
+    private readonly string TwitchHelpMessage = @"!{0} A1 A2 A3 B3 [specify column as letter, then row as number] | !{0} colorblind";
 #pragma warning restore 414
 
     IEnumerable<KMSelectable> ProcessTwitchCommand(string command)
     {
+        if (command.Trim().Equals("colorblind", StringComparison.InvariantCultureIgnoreCase))
+        {
+            if (!_colorblind)
+            {
+                _colorblind = true;
+                StartCoroutine(SetSquareColors(Enumerable.Range(0, 16).ToList(), delay: false));
+            }
+            return Enumerable.Empty<KMSelectable>();
+        }
+
         var buttons = new List<KMSelectable>();
         foreach (var piece in command.ToLowerInvariant().Split(new[] { ' ', ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
         {
