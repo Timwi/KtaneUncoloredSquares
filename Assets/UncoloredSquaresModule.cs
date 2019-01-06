@@ -68,6 +68,7 @@ public class UncoloredSquaresModule : MonoBehaviour
         _colorblind = ColorblindMode.ColorblindModeActive;
 
         var rnd = RuleSeedable.GetRNG();
+        Debug.LogFormat("[Uncolored Squares #{0}] Using rule seed: {1}", _moduleId, rnd.Seed);
 
         var shapes = new List<bool[,]>();
         var extraShapes = rnd.ShuffleFisherYates(_sometimesShapes.ToArray());
