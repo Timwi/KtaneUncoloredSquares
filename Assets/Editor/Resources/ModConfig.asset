@@ -11,19 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
   m_Name: ModConfig
   m_EditorClassIdentifier: 
-  id: UncoloredSquares
-  title: Uncolored Squares
-  description: 'There is order in chaos. A pattern in the colors. Find it, and all
-    will become clear.
-
-
-    Module created by Timwi, inspired by Colored Squares by TheAuthorOfOZ. Sounds
-    by LeGeND.
-
-
-    [url=http://ktane.timwi.de/PDF/Uncolored%20Squares.pdf]Manual PDF[/url]
-
-    [url=http://ktane.timwi.de/HTML/Uncolored%20Squares.html]Manual HTML[/url]'
+  id: UncoloredSquaresOLD
+  title: empty mod
+  description: This mod used to contain the Uncolored Squares module, but that module
+    has been migrated to the Colored Squares mod.
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: bd5c1f4881f57d54481b44e4c8a7779a, type: 3}
